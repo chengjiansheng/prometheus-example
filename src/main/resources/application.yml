@@ -1,0 +1,27 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /hello
+
+spring:
+  application:
+    name: prometheus-example
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.100.93:8761/eureka/
+  instance:
+    metadata-map:
+      "prometheus.scrape": "true"
+      "prometheus.path": "${server.servlet.context-path}/actuator/prometheus"
+      "prometheus.port": "${server.port}"
